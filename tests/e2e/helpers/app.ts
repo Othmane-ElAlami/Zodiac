@@ -65,11 +65,7 @@ export async function stubExternalTraffic(page: Page, openRouterResponses: MockO
 			return;
 		}
 
-		if (
-			["www.googletagmanager.com", "cdn.jsdelivr.net", "cdnjs.cloudflare.com", "upload.wikimedia.org"].includes(
-				url.hostname
-			)
-		) {
+		if (["www.googletagmanager.com", "cdn.jsdelivr.net", "cdnjs.cloudflare.com"].includes(url.hostname)) {
 			await fulfillStaticExternal(route);
 			return;
 		}
