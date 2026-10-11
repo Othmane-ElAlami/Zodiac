@@ -1,11 +1,11 @@
 import { expect, test, type Page } from "@playwright/test";
 
 import { seedLocalSettings, stubExternalTraffic } from "../helpers/app";
+import type * as DbService from "../../../src/services/Db.service";
 
 async function countPersonasByName(page: Page, name: string): Promise<number> {
 	return await page.evaluate(async (personaName) => {
-		const importModule = new Function("path", "return import(path);") as (path: string) => Promise<any>;
-		const dbService = await importModule("/services/Db.service.ts");
+		const dbService = await window.importModule<typeof DbService>("/services/Db.service.ts");
 		const personas = await dbService.db.personalities.toArray();
 		return personas.filter((persona: { name?: string }) => persona.name === personaName).length;
 	}, name);

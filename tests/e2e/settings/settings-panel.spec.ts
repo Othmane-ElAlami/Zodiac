@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 import { seedLocalSettings, stubExternalTraffic } from "../helpers/app";
+import type * as GroupChatService from "../../../src/services/GroupChat.service";
 
 test("settings opens and closes from the sidebar footer", async ({ page }) => {
 	// Wide enough for both sidebars, so the gear stays reachable while settings is open.
@@ -31,9 +32,8 @@ test("RPG settings button opens settings on the group chat page", async ({ page 
 
 	// Seed the chat through the services; the button under test is the real entry point.
 	await page.evaluate(async () => {
-		const importModule = new Function("path", "return import(path);") as (path: string) => Promise<any>;
-		const personalityService = await importModule("/services/Personality.service.ts");
-		const groupChatService = await importModule("/services/GroupChat.service.ts");
+		const personalityService = await window.importModule<any>("/services/Personality.service.ts");
+		const groupChatService = await window.importModule<typeof GroupChatService>("/services/GroupChat.service.ts");
 
 		await personalityService.add({ name: "RPG Persona 1" });
 		await personalityService.add({ name: "RPG Persona 2" });

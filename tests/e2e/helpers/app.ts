@@ -1,5 +1,11 @@
 import type { Page, Route } from "@playwright/test";
 
+declare global {
+	interface Window {
+		importModule<T = unknown>(path: string): Promise<T>;
+	}
+}
+
 type MockOpenRouterResponse = {
 	text: string;
 };
@@ -75,6 +81,7 @@ export async function stubExternalTraffic(page: Page, openRouterResponses: MockO
 }
 
 export async function seedLocalSettings(page: Page): Promise<void> {
+	await installBrowserImport(page);
 	await page.addInitScript(() => {
 		localStorage.setItem("onboardingCompleted", "true");
 		localStorage.setItem("OPENROUTER_API_KEY", "test-openrouter-key");
@@ -88,9 +95,9 @@ export async function seedLocalSettings(page: Page): Promise<void> {
 	});
 }
 
-export async function importBrowserModule<T = any>(page: Page, path: string): Promise<T> {
-	return (await page.evaluate(async (modulePath) => {
-		const importModule = new Function("path", "return import(path);") as (path: string) => Promise<unknown>;
-		return await importModule(modulePath);
-	}, path)) as T;
+// Lets page.evaluate callbacks load the app's own modules, which only exist in the browser.
+export async function installBrowserImport(page: Page): Promise<void> {
+	await page.addInitScript(() => {
+		window.importModule = (path) => import(path);
+	});
 }
