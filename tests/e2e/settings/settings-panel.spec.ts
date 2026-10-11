@@ -72,3 +72,35 @@ test("closing settings on mobile returns to the sidebar", async ({ page }) => {
 	await page.locator(".sidebar .navbar-tab", { hasText: "Personas" }).click();
 	await expect(page.locator("#btn-import-personality")).toBeVisible();
 });
+
+test("an open settings page takes over the panel title and offers the way back", async ({ page }) => {
+	await stubExternalTraffic(page, []);
+	await seedLocalSettings(page);
+	await page.goto("/");
+
+	const settings = page.locator("#settings-sidebar");
+	const heading = settings.getByRole("heading", { level: 2 });
+	const back = settings.getByRole("button", { name: "Back to settings", exact: true });
+
+	await page.locator("#btn-open-settings").click();
+	await expect(heading).toHaveText("Settings");
+	await expect(back).toBeHidden();
+
+	await page.locator('[data-settings-target="personalisation"]').click();
+	await expect(page.locator('[data-settings-page="personalisation"]')).toBeVisible();
+	await expect(heading, "the panel title should name the open page").toHaveText("Personalisation");
+	await expect(
+		settings.getByText("Settings", { exact: true }),
+		"the page should not repeat a Settings title"
+	).toHaveCount(0);
+	await expect(back).toBeVisible();
+
+	await back.click();
+	await expect(page.locator("#settings-home")).toBeVisible();
+	await expect(page.locator('[data-settings-page="personalisation"]')).toBeHidden();
+	await expect(heading).toHaveText("Settings");
+	await expect(back).toBeHidden();
+
+	await page.keyboard.press("Escape");
+	await expect(settings, "Escape should still close the panel after going back").toBeHidden();
+});

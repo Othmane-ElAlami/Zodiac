@@ -7,7 +7,9 @@ const SETTINGS_SECTION_SELECTOR = "#settings-section";
 const SETTINGS_HOME_ID = "settings-home";
 const SETTINGS_PAGE_SELECTOR = "[data-settings-page]";
 const SETTINGS_ITEM_SELECTOR = "[data-settings-target]";
-const SETTINGS_BACK_BUTTON_SELECTOR = "[data-settings-back]";
+const SETTINGS_BACK_BUTTON_SELECTOR = "#btn-settings-back";
+const SETTINGS_TITLE_SELECTOR = "#settings-sidebar-title";
+const SETTINGS_HOME_TITLE = "Settings";
 
 let currentPage: SettingsPageKey = "home";
 
@@ -21,6 +23,14 @@ function getHomeView(): HTMLElement | null {
 
 function getPages(container: HTMLElement): HTMLElement[] {
 	return Array.from(container.querySelectorAll<HTMLElement>(SETTINGS_PAGE_SELECTOR));
+}
+
+// The panel's top bar carries the open page's title and the way back, instead of each page repeating a header.
+function updateTopBar(page: HTMLElement | null): void {
+	const title = document.querySelector<HTMLElement>(SETTINGS_TITLE_SELECTOR);
+	const backButton = document.querySelector<HTMLButtonElement>(SETTINGS_BACK_BUTTON_SELECTOR);
+	if (title) title.textContent = page?.dataset.settingsTitle ?? SETTINGS_HOME_TITLE;
+	backButton?.classList.toggle("hidden", !page);
 }
 
 function showPage(target: SettingsPageKey, container: HTMLElement): void {
@@ -39,6 +49,7 @@ function showPage(target: SettingsPageKey, container: HTMLElement): void {
 	if (target === "home") {
 		// Show home immediately
 		helpers.showElement(homeView, false);
+		updateTopBar(null);
 	} else {
 		const page = pages.find((p) => p.dataset.settingsPage === target);
 		if (!page) {
@@ -46,12 +57,14 @@ function showPage(target: SettingsPageKey, container: HTMLElement): void {
 				availablePages: pages.map((p) => p.dataset.settingsPage)
 			});
 			helpers.showElement(homeView, false);
+			updateTopBar(null);
 			currentPage = "home";
 			return;
 		}
 
 		// Show the requested page immediately
 		helpers.showElement(page, false);
+		updateTopBar(page);
 	}
 
 	currentPage = target;
@@ -98,10 +111,11 @@ export function initialize(): void {
 		item.addEventListener("click", () => navigateTo(targetKey, settingsSection));
 	});
 
-	// Attach back button handlers
-	const backButtons = settingsSection.querySelectorAll<HTMLButtonElement>(SETTINGS_BACK_BUTTON_SELECTOR);
-	backButtons.forEach((button) => {
-		button.addEventListener("click", () => navigateTo("home", settingsSection));
+	// Attach the back button handler
+	document.querySelector<HTMLButtonElement>(SETTINGS_BACK_BUTTON_SELECTOR)?.addEventListener("click", () => {
+		navigateTo("home", settingsSection);
+		// The button hides itself on home, so hand focus to the panel to keep Escape working.
+		document.querySelector<HTMLElement>("#settings-sidebar")?.focus({ preventScroll: true });
 	});
 
 	onAppEvent("open-settings", (event) => {

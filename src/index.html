@@ -523,7 +523,15 @@
 			<aside class="settings-sidebar" id="settings-sidebar" aria-label="Settings" tabindex="-1" inert>
 				<div class="sidebar-top-bar">
 					<div class="header">
-						<h2 class="settings-sidebar-title">Settings</h2>
+						<button
+							type="button"
+							class="settings-page-back btn-textual hidden"
+							id="btn-settings-back"
+							aria-label="Back to settings"
+						>
+							<span class="material-symbols-outlined">arrow_back</span>
+						</button>
+						<h2 class="settings-sidebar-title" id="settings-sidebar-title">Settings</h2>
 						<button
 							type="button"
 							class="material-symbols-outlined btn-textual"
@@ -614,13 +622,7 @@
 								</div>
 							</div>
 
-							<div class="settings-page" data-settings-page="api">
-								<div class="settings-page-header">
-									<button class="settings-page-back btn-textual" type="button" data-settings-back>
-										<span class="material-symbols-outlined">arrow_back</span>
-									</button>
-									<h3 class="settings-page-title">API Keys</h3>
-								</div>
+							<div class="settings-page" data-settings-page="api" data-settings-title="API Keys">
 								<div class="settings-page-content">
 									<div class="api-key-group">
 										<label class="setting-label" for="apiKeyInput">Gemini</label>
@@ -686,13 +688,7 @@
 								</div>
 							</div>
 
-							<div class="settings-page" data-settings-page="chat">
-								<div class="settings-page-header">
-									<button class="settings-page-back btn-textual" type="button" data-settings-back>
-										<span class="material-symbols-outlined">arrow_back</span>
-									</button>
-									<h3 class="settings-page-title">Chat Settings</h3>
-								</div>
+							<div class="settings-page" data-settings-page="chat" data-settings-title="Chat Settings">
 								<div class="settings-page-content">
 									<div class="generation-settings">
 										<div>
@@ -817,13 +813,11 @@
 								</div>
 							</div>
 
-							<div class="settings-page" data-settings-page="groupchat">
-								<div class="settings-page-header">
-									<button class="settings-page-back btn-textual" type="button" data-settings-back>
-										<span class="material-symbols-outlined">arrow_back</span>
-									</button>
-									<h3 class="settings-page-title">Group chat Settings</h3>
-								</div>
+							<div
+								class="settings-page"
+								data-settings-page="groupchat"
+								data-settings-title="Group chat Settings"
+							>
 								<div class="settings-page-content">
 									<h4>Dynamic group chats</h4>
 									<div class="settings-ux-group">
@@ -877,13 +871,7 @@
 								</div>
 							</div>
 
-							<div class="settings-page" data-settings-page="image">
-								<div class="settings-page-header">
-									<button class="settings-page-back btn-textual" type="button" data-settings-back>
-										<span class="material-symbols-outlined">arrow_back</span>
-									</button>
-									<h3 class="settings-page-title">Image Settings</h3>
-								</div>
+							<div class="settings-page" data-settings-page="image" data-settings-title="Image Settings">
 								<div class="settings-page-content">
 									<div class="generation-settings">
 										<div>
@@ -950,13 +938,11 @@
 								</div>
 							</div>
 
-							<div class="settings-page" data-settings-page="personalisation">
-								<div class="settings-page-header">
-									<button class="settings-page-back btn-textual" type="button" data-settings-back>
-										<span class="material-symbols-outlined">arrow_back</span>
-									</button>
-									<h3 class="settings-page-title">Personalisation</h3>
-								</div>
+							<div
+								class="settings-page"
+								data-settings-page="personalisation"
+								data-settings-title="Personalisation"
+							>
 								<div class="settings-page-content">
 									<div class="ui-settings">
 										<div class="ui-setting">
@@ -1206,13 +1192,7 @@
 								</div>
 							</div>
 
-							<div class="settings-page" data-settings-page="data">
-								<div class="settings-page-header">
-									<button class="settings-page-back btn-textual" type="button" data-settings-back>
-										<span class="material-symbols-outlined">arrow_back</span>
-									</button>
-									<h3 class="settings-page-title">Data Management</h3>
-								</div>
+							<div class="settings-page" data-settings-page="data" data-settings-title="Data Management">
 								<div class="settings-page-content">
 									<!-- Cloud Sync Section (Pro/Max only) -->
 									<div id="cloud-sync-section" class="hidden">
