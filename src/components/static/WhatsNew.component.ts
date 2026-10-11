@@ -1,8 +1,11 @@
+import { onAppEvent } from "../../events";
 import * as overlayService from "../../services/Overlay.service";
 import { getVersion } from "../../utils/helpers";
 
 const whatsNewButton = document.querySelector("#btn-whatsnew")!;
-const aboutButton = document.querySelector("#btn-about")!;
+const aboutButtonElement = document.querySelector<HTMLButtonElement>("#btn-about");
+if (!aboutButtonElement) throw new Error("Missing DOM element: #btn-about");
+const aboutButton = aboutButtonElement;
 
 //setup version number on the about menu entry and header
 whatsNewButton.querySelector("#whatsnew-version")!.textContent = `${getVersion()}`;
@@ -15,7 +18,7 @@ whatsNewButton.addEventListener("click", () => {
 if (localStorage.getItem("version") != getVersion()) {
 	aboutButton.classList.add("has-update");
 	whatsNewButton.classList.add("unread");
-	window.addEventListener(
+	onAppEvent(
 		"about-menu-closed",
 		() => {
 			localStorage.setItem("version", getVersion());

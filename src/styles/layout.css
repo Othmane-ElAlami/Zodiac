@@ -36,8 +36,9 @@ body.maintenance-banner-visible #main-container {
 	min-height: var(--vvh, 100dvh);
 	/* A stowed sidebar sits past the edge; clip it so the page cannot be scrolled sideways to it. */
 	overflow-x: clip;
+	--sidebar-width: 25rem;
 	/* Cancels a sidebar's width, its inner margin, and the row gap, so the chat takes over its space. */
-	--sidebar-stowed-margin: calc(-1 * (25rem + 0.75rem + 0.5rem));
+	--sidebar-stowed-margin: calc(-1 * (var(--sidebar-width) + 0.75rem + 0.5rem));
 }
 
 #chat-title {
@@ -51,7 +52,7 @@ body.maintenance-banner-visible #main-container {
 	flex-direction: column;
 	gap: 0.25rem;
 	padding: 0.875rem;
-	width: 25rem;
+	width: var(--sidebar-width);
 	border-radius: 1.25rem;
 	scrollbar-width: thin;
 	margin: 0.75rem;
@@ -224,31 +225,6 @@ body.settings-open .settings-sidebar {
 
 .about-menu {
 	display: none;
-}
-
-.about-menu .about-menu-item {
-	display: flex;
-	align-items: center;
-	gap: 0.5rem;
-	width: 100%;
-	padding: 0.5rem 0.75rem;
-	border-radius: 0.3rem;
-	color: inherit;
-	font-size: 0.875rem;
-	text-decoration: none;
-	white-space: nowrap;
-	cursor: pointer;
-	transition: background-color 0.1s ease;
-}
-
-.about-menu .about-menu-item:hover,
-.about-menu .about-menu-item:focus-visible {
-	background: var(--dropdown-menu-item-hover-bg);
-	outline: none;
-}
-
-.about-menu .about-menu-item:active {
-	background: var(--dropdown-menu-item-active-bg);
 }
 
 .about-menu .material-symbols-outlined {

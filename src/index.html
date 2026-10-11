@@ -287,19 +287,20 @@
 							id="btn-about"
 							class="sidebar-footer-button"
 							aria-label="About"
+							aria-haspopup="menu"
 							aria-controls="about-menu"
 							aria-expanded="false"
 						>
 							<span class="material-symbols-outlined">info</span>
 						</button>
-						<div class="dropdown-menu about-menu" id="about-menu">
-							<button type="button" class="about-menu-item" id="btn-whatsnew">
+						<div class="dropdown-menu about-menu" id="about-menu" role="menu" tabindex="-1">
+							<button type="button" class="dropdown-menu-item about-menu-item" id="btn-whatsnew">
 								<span class="material-symbols-outlined" aria-hidden="true">new_releases</span>
 								<span>What's New</span>
 								<span class="about-menu-version" id="whatsnew-version"></span>
 							</button>
 							<a
-								class="about-menu-item"
+								class="dropdown-menu-item about-menu-item"
 								href="https://github.com/zozo-ai-inc/zodiac"
 								target="_blank"
 								rel="noopener noreferrer"
@@ -307,11 +308,11 @@
 								<span class="material-symbols-outlined" aria-hidden="true">code</span>
 								<span>Source Code</span>
 							</a>
-							<a class="about-menu-item" href="terms-of-service.html" target="_blank">
+							<a class="dropdown-menu-item about-menu-item" href="terms-of-service.html" target="_blank">
 								<span class="material-symbols-outlined" aria-hidden="true">gavel</span>
 								<span>Terms of Service</span>
 							</a>
-							<a class="about-menu-item" href="privacy-policy.html" target="_blank">
+							<a class="dropdown-menu-item about-menu-item" href="privacy-policy.html" target="_blank">
 								<span class="material-symbols-outlined" aria-hidden="true">shield</span>
 								<span>Privacy Policy</span>
 							</a>
@@ -3687,7 +3688,7 @@ Your Max plan no longer has a monthly usage limit.</textarea
 				<div id="model-picker-family-list" class="settings-list" aria-label="Model families"></div>
 			</div>
 			<div id="model-picker-family-detail" class="model-picker-view hidden">
-				<div class="settings-page-header">
+				<div class="model-picker-detail-header">
 					<button
 						id="model-picker-back"
 						class="settings-page-back btn-textual"
@@ -3696,7 +3697,7 @@ Your Max plan no longer has a monthly usage limit.</textarea
 					>
 						<span class="material-symbols-outlined">arrow_back</span>
 					</button>
-					<h3 id="model-picker-family-title" class="settings-page-title">Models</h3>
+					<h3 id="model-picker-family-title" class="model-picker-detail-title">Models</h3>
 					<button
 						id="model-picker-mega-toggle"
 						class="model-picker-mega-toggle"

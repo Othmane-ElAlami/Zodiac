@@ -1,3 +1,4 @@
+import { dispatchEmptyAppEvent } from "../../events";
 import { openDropdownPortal, type DropdownPortal } from "../../utils/dropdownPortal";
 
 const aboutButtonElement = document.querySelector<HTMLButtonElement>("#btn-about");
@@ -19,7 +20,7 @@ function openMenu(): void {
 		onClose: () => {
 			menuPortal = null;
 			aboutButton.setAttribute("aria-expanded", "false");
-			window.dispatchEvent(new CustomEvent("about-menu-closed"));
+			dispatchEmptyAppEvent("about-menu-closed");
 		}
 	});
 	// The portal moves the menu to the end of <body>, out of the button's tab order.
@@ -35,8 +36,18 @@ aboutButton.addEventListener("click", () => {
 });
 
 document.addEventListener("click", (event) => {
-	// Clicks on the button are left to its own toggle; anything else, including a followed link, closes the menu.
-	if (menuPortal && !aboutButton.contains(event.target as Node | null)) {
+	const target = event.target as Element | null;
+	// Clicks on the button are left to its own toggle, and the menu's own padding is not a dismissal.
+	if (!menuPortal || aboutButton.contains(target)) return;
+	if (aboutMenu.contains(target) && !target?.closest(".about-menu-item")) return;
+	// Anything else, including a followed link, closes the menu.
+	menuPortal.close();
+});
+
+aboutMenu.addEventListener("focusout", (event) => {
+	const next = event.relatedTarget as Node | null;
+	// Focus leaving for anywhere but the menu or its button, as when tabbing past the last item, closes it.
+	if (menuPortal && !aboutMenu.contains(next) && !aboutButton.contains(next)) {
 		menuPortal.close();
 	}
 });

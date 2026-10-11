@@ -142,6 +142,8 @@ export interface OpenSettingsDetail {
 	page?: SettingsPage;
 }
 
+export type AboutMenuClosedDetail = Record<string, never>;
+
 // --- Image Mode Events ---
 
 export interface ImageGenerationToggledDetail {
@@ -280,6 +282,7 @@ export const EventNames = {
 	SETTINGS_LOADED_FROM_STORAGE: "settings-loaded-from-storage",
 	API_KEYS_CHANGED: "api-keys-changed",
 	OPEN_SETTINGS: "open-settings",
+	ABOUT_MENU_CLOSED: "about-menu-closed",
 
 	// Image Mode
 	IMAGE_GENERATION_TOGGLED: "image-generation-toggled",
@@ -359,6 +362,7 @@ export interface AppEventMap {
 	[EventNames.SETTINGS_LOADED_FROM_STORAGE]: SettingsLoadedFromStorageDetail;
 	[EventNames.API_KEYS_CHANGED]: ApiKeysChangedDetail;
 	[EventNames.OPEN_SETTINGS]: OpenSettingsDetail;
+	[EventNames.ABOUT_MENU_CLOSED]: AboutMenuClosedDetail;
 
 	// Image Mode
 	[EventNames.IMAGE_GENERATION_TOGGLED]: ImageGenerationToggledDetail;

@@ -3,6 +3,7 @@ import { onAppEvent, type SettingsPage } from "../../events";
 
 type SettingsPageKey = "home" | SettingsPage;
 
+const SETTINGS_PANEL_SELECTOR = "#settings-sidebar";
 const SETTINGS_SECTION_SELECTOR = "#settings-section";
 const SETTINGS_HOME_ID = "settings-home";
 const SETTINGS_PAGE_SELECTOR = "[data-settings-page]";
@@ -72,7 +73,11 @@ function showPage(target: SettingsPageKey, container: HTMLElement): void {
 
 function navigateTo(target: SettingsPageKey, container: HTMLElement): void {
 	if (target === currentPage) return;
+	const panel = document.querySelector<HTMLElement>(SETTINGS_PANEL_SELECTOR);
+	const hadFocus = panel?.contains(document.activeElement) ?? false;
 	showPage(target, container);
+	// Whatever held focus is hidden now, so hand focus to the panel to keep Escape working.
+	if (hadFocus) panel?.focus({ preventScroll: true });
 }
 
 export function initialize(): void {
@@ -114,12 +119,10 @@ export function initialize(): void {
 	// Attach the back button handler
 	document.querySelector<HTMLButtonElement>(SETTINGS_BACK_BUTTON_SELECTOR)?.addEventListener("click", () => {
 		navigateTo("home", settingsSection);
-		// The button hides itself on home, so hand focus to the panel to keep Escape working.
-		document.querySelector<HTMLElement>("#settings-sidebar")?.focus({ preventScroll: true });
 	});
 
 	onAppEvent("open-settings", (event) => {
-		if (event.detail.page) navigateTo(event.detail.page, settingsSection);
+		if (event.detail?.page) navigateTo(event.detail.page, settingsSection);
 	});
 }
 

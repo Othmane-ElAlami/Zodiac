@@ -15,6 +15,8 @@ const closeSettingsButton = closeSettingsButtonElement;
 // On <body> because the sidebar also reacts: on narrower desktops it gives way while settings is open.
 const OPEN_CLASS = "settings-open";
 
+const NON_TEXT_INPUT_TYPES = ["button", "checkbox", "color", "file", "image", "radio", "range", "reset", "submit"];
+
 let focusRestoreTarget: HTMLElement | null = null;
 
 function isOpen(): boolean {
@@ -53,10 +55,20 @@ openSettingsButton.addEventListener("click", () => {
 
 closeSettingsButton.addEventListener("click", closeSettings);
 
+function isTextEntry(target: EventTarget | null): boolean {
+	if (target instanceof HTMLTextAreaElement) return true;
+	if (target instanceof HTMLInputElement) return !NON_TEXT_INPUT_TYPES.includes(target.type);
+	return target instanceof HTMLElement && target.isContentEditable;
+}
+
 settingsSidebar.addEventListener("keydown", (event) => {
-	if (event.key === "Escape" && !event.defaultPrevented) {
-		closeSettings();
+	if (event.key !== "Escape" || event.defaultPrevented) return;
+	// Escape in a field abandons the edit, not the panel: it steps out to the panel, where the next one closes.
+	if (isTextEntry(event.target)) {
+		settingsSidebar.focus({ preventScroll: true });
+		return;
 	}
+	closeSettings();
 });
 
 onAppEvent("open-settings", openSettings);

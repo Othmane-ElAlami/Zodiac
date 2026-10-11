@@ -28,6 +28,31 @@
 	z-index: var(--layer-dropdown);
 }
 
+.dropdown-menu .dropdown-menu-item {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	width: 100%;
+	padding: 0.5rem 0.75rem;
+	border-radius: 0.3rem;
+	color: inherit;
+	font-size: 0.875rem;
+	text-decoration: none;
+	white-space: nowrap;
+	cursor: pointer;
+	transition: background-color 0.1s ease;
+}
+
+.dropdown-menu .dropdown-menu-item:hover,
+.dropdown-menu .dropdown-menu-item:focus-visible {
+	background: var(--dropdown-menu-item-hover-bg);
+	outline: none;
+}
+
+.dropdown-menu .dropdown-menu-item:active {
+	background: var(--dropdown-menu-item-active-bg);
+}
+
 @keyframes menuFadeIn {
 	from {
 		opacity: 0;
