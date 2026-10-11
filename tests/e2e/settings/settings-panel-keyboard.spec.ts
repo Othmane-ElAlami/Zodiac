@@ -60,4 +60,6 @@ test("Escape in a settings text input mid-edit keeps the panel open", async ({ p
 		ratio: 1
 	});
 	await expect(page.locator("#btn-open-settings")).toHaveAttribute("aria-expanded", "true");
+	await expect(apiKeyInput, "Escape should leave the field focused with its text").toBeFocused();
+	await expect(apiKeyInput).toHaveValue("partial-key");
 });

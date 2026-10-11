@@ -63,11 +63,8 @@ function isTextEntry(target: EventTarget | null): boolean {
 
 settingsSidebar.addEventListener("keydown", (event) => {
 	if (event.key !== "Escape" || event.defaultPrevented) return;
-	// Escape in a field abandons the edit, not the panel: it steps out to the panel, where the next one closes.
-	if (isTextEntry(event.target)) {
-		settingsSidebar.focus({ preventScroll: true });
-		return;
-	}
+	// Escape in a field abandons the edit, not the panel.
+	if (isTextEntry(event.target)) return;
 	closeSettings();
 });
 
